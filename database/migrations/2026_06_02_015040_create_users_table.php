@@ -17,6 +17,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('cpf', 14)->unique()->nullable();
+            $table->foreignId('tipo_usuario_id')
+                  ->default(1)
+                  ->constrained('tipo_usuarios')
+                  ->restrictOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });
