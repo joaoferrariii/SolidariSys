@@ -39,6 +39,25 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    :href="route('doacao')"
+                                    :active="route().current('doacao')"
+                                >
+                                    Doações
+                                </NavLink>
+                                <NavLink
+                                    :href="route('cadastro-doador')"
+                                    :active="route().current('cadastro-doador')"
+                                >
+                                    Doadores
+                                </NavLink>
+                                <NavLink
+                                    v-if="$page.props.auth.user.tipo_usuario_id == 1"
+                                    :href="route('cadastro-usuario')"
+                                    :active="route().current('cadastro-usuario')"
+                                >
+                                    Usuários
+                                </NavLink>
                             </div>
                         </div>
 
