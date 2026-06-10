@@ -43,6 +43,16 @@ const mainNavItems: NavItem[] = [
         href: '/dashboard',
         icon: LayoutGrid,
     },
+    {
+        title: 'Doações',
+        href: '/doacao',
+        icon: LayoutGrid,
+    },
+    { 
+        title: 'Doadores',
+        href: '/cadastro-doador',
+        icon: LayoutGrid
+    },
 ];
 
 const rightNavItems: NavItem[] = [
