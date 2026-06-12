@@ -18,8 +18,8 @@ const columns = [
 const dialogOpen     = ref(false);
 const doadorEditando = ref<any>(null);
 
-function handleAdd()       { doadorEditando.value = null; dialogOpen.value = true; }
-function handleEdit(row: any) { doadorEditando.value = row; dialogOpen.value = true; }
+function handleAdd()          { doadorEditando.value = null; dialogOpen.value = true; }
+function handleEdit(row: any) { doadorEditando.value = row;  dialogOpen.value = true; }
 
 function handleDelete(row: any) {
     if (!confirm(`Deletar doador "${row.nome}"?`)) return;
@@ -43,11 +43,13 @@ function handleSave(data: any) {
     <Head title="Doadores" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">Doadores</h2>
+            <h2 class="text-xl font-semibold leading-tight" style="color: #111827;">
+                Doadores
+            </h2>
         </template>
-        <div class="py-12">
+        <div class="py-12" style="background-color: #F3F4F6;">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div class="overflow-hidden shadow-sm sm:rounded-lg" style="background-color: #FFFFFF;">
                     <div class="p-6">
                         <DataGrid
                             :columns="columns"
