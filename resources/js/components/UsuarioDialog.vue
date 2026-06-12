@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { watch, computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,6 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
     success: [];
     close: [];
+    save: [data: any];
     'update:open': [value: boolean];
 }>();
 
@@ -62,7 +62,6 @@ function handleSave() {
         form.setError('cpf', 'CPF inválido. Use o formato 000.000.000-00');
         return;
     }
-
     if (isEditMode.value) {
         form.put(route('cadastro-usuario.update', props.usuario.id), {
             onSuccess: () => emit('success'),
@@ -82,64 +81,72 @@ function handleClose() {
 
 <template>
     <Dialog :open="open" @update:open="handleClose">
-        <DialogContent class="max-w-md">
+        <DialogContent class="max-w-md" style="background-color: #FFFFFF;">
             <DialogHeader>
-                <DialogTitle>{{ dialogTitle }}</DialogTitle>
+                <DialogTitle style="color: #111827;">{{ dialogTitle }}</DialogTitle>
             </DialogHeader>
 
-            <!-- Erros -->
-            <div v-if="Object.keys(form.errors).length > 0" class="rounded-md border border-red-300 bg-red-50 p-4">
-                <p class="text-sm font-medium text-red-600 mb-2">Corrija os erros abaixo:</p>
+       
+            <div
+                v-if="Object.keys(form.errors).length > 0"
+                class="rounded-md border p-4"
+                style="border-color: #EF4444; background-color: #FEF2F2;"
+            >
+                <p class="text-sm font-medium mb-2" style="color: #EF4444;">Corrija os erros abaixo:</p>
                 <ul class="list-disc list-inside space-y-1">
-                    <li v-for="(error, field) in form.errors" :key="field" class="text-sm text-red-600">
+                    <li v-for="(error, field) in form.errors" :key="field" class="text-sm" style="color: #EF4444;">
                         {{ error }}
                     </li>
                 </ul>
             </div>
 
             <div class="grid gap-4">
-                <!-- Nome -->
+     
                 <div class="grid gap-2">
-                    <Label>Nome *</Label>
+                    <Label style="color: #111827;">Nome *</Label>
                     <Input
                         v-model="form.name"
                         placeholder="Nome completo"
-                        :class="form.errors.name ? 'border-red-500' : ''"
+                        class="focus:ring-2 focus:ring-[#1B4332] focus:border-[#1B4332]"
+                        :style="form.errors.name ? 'border-color: #EF4444;' : 'border-color: #D1D5DB;'"
                     />
                 </div>
 
-                <!-- Email -->
+  
                 <div class="grid gap-2">
-                    <Label>E-mail *</Label>
+                    <Label style="color: #111827;">E-mail *</Label>
                     <Input
                         v-model="form.email"
                         type="email"
                         placeholder="email@exemplo.com"
-                        :class="form.errors.email ? 'border-red-500' : ''"
+                        class="focus:ring-2 focus:ring-[#1B4332] focus:border-[#1B4332]"
+                        :style="form.errors.email ? 'border-color: #EF4444;' : 'border-color: #D1D5DB;'"
                     />
                 </div>
 
-                <!-- CPF -->
+        
                 <div class="grid gap-2">
-                    <Label>
+                    <Label style="color: #111827;">
                         CPF *
-                        <span class="text-xs text-gray-400">(senha = primeiros 6 dígitos)</span>
+                        <span class="text-xs" style="color: #6B7280;">(senha = primeiros 6 dígitos)</span>
                     </Label>
                     <Input
                         v-model="form.cpf"
                         placeholder="000.000.000-00"
                         maxlength="14"
                         @input="formatCpf"
-                        :class="form.errors.cpf ? 'border-red-500' : ''"
+                        class="focus:ring-2 focus:ring-[#1B4332] focus:border-[#1B4332]"
+                        :style="form.errors.cpf ? 'border-color: #EF4444;' : 'border-color: #D1D5DB;'"
                     />
                 </div>
 
-                <!-- Tipo -->
+   
                 <div class="grid gap-2">
-                    <Label>Tipo *</Label>
+                    <Label style="color: #111827;">Tipo *</Label>
                     <select
                         v-model="form.tipo_usuario_id"
-                        class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                        class="flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1B4332] focus:border-[#1B4332]"
+                        style="border-color: #D1D5DB; color: #111827; background-color: #FFFFFF;"
                     >
                         <option :value="1">Coordenador</option>
                         <option :value="2">Voluntário</option>
@@ -148,10 +155,25 @@ function handleClose() {
             </div>
 
             <DialogFooter class="gap-2 pt-2">
-                <Button variant="secondary" @click="handleClose">Cancelar</Button>
-                <Button @click="handleSave" :disabled="form.processing">
+                <button
+                    @click="handleClose"
+                    class="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
+                    style="background-color: #F3F4F6; color: #111827;"
+                    onmouseover="this.style.backgroundColor='#E5E7EB'"
+                    onmouseout="this.style.backgroundColor='#F3F4F6'"
+                >
+                    Cancelar
+                </button>
+                <button
+                    @click="handleSave"
+                    :disabled="form.processing"
+                    class="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-white transition-colors"
+                    style="background-color: #1B4332;"
+                    onmouseover="this.style.backgroundColor='#2D6A4F'"
+                    onmouseout="this.style.backgroundColor='#1B4332'"
+                >
                     {{ form.processing ? 'Salvando...' : (isEditMode ? 'Salvar' : 'Criar') }}
-                </Button>
+                </button>
             </DialogFooter>
         </DialogContent>
     </Dialog>
