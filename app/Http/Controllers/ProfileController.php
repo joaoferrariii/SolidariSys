@@ -37,7 +37,8 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit');
+        // Redireciona de volta para a URL de onde veio (funciona para /profile e /settings/profile)
+        return Redirect::to($request->headers->get('referer') ?? route('profile.edit'));
     }
 
     /**
