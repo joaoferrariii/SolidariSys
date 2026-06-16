@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\DoadorController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Auth\PasswordController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -15,11 +16,13 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
-    
+
 Route::middleware('auth')->group(function () {
-    Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/settings/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+     Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('settings.profile.edit');
+    Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('settings.profile.update');
+    Route::delete('/settings/profile', [ProfileController::class, 'destroy'])->name('settings.profile.destroy');
+
+    Route::put('/settings/password', [PasswordController::class, 'update'])->name('settings.password.update');
 });
 
 // Doador
