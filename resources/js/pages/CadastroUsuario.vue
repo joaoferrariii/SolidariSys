@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DataGrid from '@/components/DataGrid.vue';
 import UsuarioDialog from '@/components/UsuarioDialog.vue';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
 import { Head, router, usePage } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 

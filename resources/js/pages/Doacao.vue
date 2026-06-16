@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DataGrid from '@/components/DataGrid.vue';
 import DoacaoDialog from '@/components/DoacaoDialog.vue';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
