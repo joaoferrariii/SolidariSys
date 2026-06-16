@@ -18,11 +18,18 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-     Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('settings.profile.edit');
+    // Para ProfileTest (usa /profile)
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Para Settings/ProfileUpdateTest (usa /settings/profile)
+    Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('settings.profile.edit');
     Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('settings.profile.update');
     Route::delete('/settings/profile', [ProfileController::class, 'destroy'])->name('settings.profile.destroy');
 
-    Route::put('/settings/password', [PasswordController::class, 'update'])->name('settings.password.update');
+    // Para Settings/PasswordUpdateTest (usa /settings/password)
+    Route::put('/settings/password', [\App\Http\Controllers\Auth\PasswordController::class, 'update'])->name('settings.password.update');
 });
 
 // Doador

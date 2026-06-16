@@ -14,6 +14,8 @@ class Tipousuario extends Model
     protected $fillable = [
         'nome',
     ];
+
+    public $timestamps = false;
  
     public function usuarios(): HasMany
     {
