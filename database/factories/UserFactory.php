@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Tipousuario;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -24,11 +24,13 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        // Garante que existe ao menos um tipo_usuario (id=1) antes de criar o user
-        $tipoUsuarioId = Tipousuario::firstOrCreate(
-            ['id' => 1],
-            ['nome' => 'Administrador']
-        )->id;
+        // Garante que o tipo_usuario padrão existe.
+        // Usa DB::table() diretamente para evitar timestamps automáticos,
+        // pois a tabela tipo_usuarios não possui colunas created_at/updated_at.
+        $exists = DB::table('tipo_usuarios')->where('id', 1)->exists();
+        if (! $exists) {
+            DB::table('tipo_usuarios')->insert(['id' => 1, 'nome' => 'Administrador']);
+        }
 
         return [
             'name'              => fake()->name(),
@@ -37,7 +39,7 @@ class UserFactory extends Factory
             'password'          => static::$password ??= Hash::make('password'),
             'remember_token'    => Str::random(10),
             'cpf'               => null,
-            'tipo_usuario_id'   => $tipoUsuarioId,
+            'tipo_usuario_id'   => 1,
         ];
     }
 
