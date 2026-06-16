@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
-import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -60,31 +59,68 @@ function handleClose() {
 
 <template>
     <Dialog :open="open" @update:open="handleClose">
-        <DialogContent class="max-w-md">
+        <DialogContent class="max-w-md" style="background-color: #FFFFFF;">
             <DialogHeader>
-                <DialogTitle>{{ dialogTitle }}</DialogTitle>
+                <DialogTitle style="color: #111827;">{{ dialogTitle }}</DialogTitle>
             </DialogHeader>
             <div class="grid gap-4">
                 <div class="grid gap-2">
-                    <Label>Nome *</Label>
-                    <Input v-model="formData.nome" placeholder="Nome completo" />
+                    <Label style="color: #111827;">Nome *</Label>
+                    <Input
+                        v-model="formData.nome"
+                        placeholder="Nome completo"
+                        class="focus:ring-2 focus:ring-[#1B4332] focus:border-[#1B4332]"
+                        style="border-color: #D1D5DB; color: #111827;"
+                    />
                 </div>
                 <div class="grid gap-2">
-                    <Label>CPF</Label>
-                    <Input v-model="formData.cpf" placeholder="000.000.000-00" />
+                    <Label style="color: #6B7280;">CPF</Label>
+                    <Input
+                        v-model="formData.cpf"
+                        placeholder="000.000.000-00"
+                        class="focus:ring-2 focus:ring-[#1B4332] focus:border-[#1B4332]"
+                        style="border-color: #D1D5DB; color: #111827;"
+                    />
                 </div>
                 <div class="grid gap-2">
-                    <Label>E-mail</Label>
-                    <Input v-model="formData.email" type="email" placeholder="email@exemplo.com" />
+                    <Label style="color: #6B7280;">E-mail</Label>
+                    <Input
+                        v-model="formData.email"
+                        type="email"
+                        placeholder="email@exemplo.com"
+                        class="focus:ring-2 focus:ring-[#1B4332] focus:border-[#1B4332]"
+                        style="border-color: #D1D5DB; color: #111827;"
+                    />
                 </div>
                 <div class="grid gap-2">
-                    <Label>Telefone</Label>
-                    <Input v-model="formData.telefone" placeholder="(00) 00000-0000" />
+                    <Label style="color: #6B7280;">Telefone</Label>
+                    <Input
+                        v-model="formData.telefone"
+                        placeholder="(00) 00000-0000"
+                        class="focus:ring-2 focus:ring-[#1B4332] focus:border-[#1B4332]"
+                        style="border-color: #D1D5DB; color: #111827;"
+                    />
                 </div>
             </div>
             <DialogFooter class="gap-2 pt-2">
-                <Button variant="secondary" @click="handleClose">Cancelar</Button>
-                <Button @click="handleSave">{{ isEditMode ? 'Salvar' : 'Criar' }}</Button>
+                <button
+                    @click="handleClose"
+                    class="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
+                    style="background-color: #F3F4F6; color: #111827;"
+                    onmouseover="this.style.backgroundColor='#E5E7EB'"
+                    onmouseout="this.style.backgroundColor='#F3F4F6'"
+                >
+                    Cancelar
+                </button>
+                <button
+                    @click="handleSave"
+                    class="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-white transition-colors"
+                    style="background-color: #1B4332;"
+                    onmouseover="this.style.backgroundColor='#2D6A4F'"
+                    onmouseout="this.style.backgroundColor='#1B4332'"
+                >
+                    {{ isEditMode ? 'Salvar' : 'Criar' }}
+                </button>
             </DialogFooter>
         </DialogContent>
     </Dialog>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DataGrid from '@/components/DataGrid.vue';
 import DoacaoDialog from '@/components/DoacaoDialog.vue';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
@@ -48,9 +48,7 @@ function handleSave(data: any) {
         });
     } else {
         router.post(route('doacao.store'), data, {
-            onSuccess: () => {
-                dialogOpen.value = false;
-            },
+            onSuccess: () => { dialogOpen.value = false; },
         });
     }
 }
@@ -61,14 +59,14 @@ function handleSave(data: any) {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            <h2 class="text-xl font-semibold leading-tight" style="color: #111827;">
                 Doações
             </h2>
         </template>
 
-        <div class="py-12">
+        <div class="py-12" style="background-color: #F3F4F6;">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div class="overflow-hidden shadow-sm sm:rounded-lg" style="background-color: #FFFFFF;">
                     <div class="p-6">
                         <DataGrid
                             :columns="columns"

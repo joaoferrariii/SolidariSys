@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { Bar, Pie } from 'vue-chartjs';
 import {
@@ -27,7 +27,7 @@ const barData = {
     datasets: [{
         label: 'Quantidade doada',
         data: props.itensMaisDoados.map(i => i.total),
-        backgroundColor: '#6366f1',
+        backgroundColor: '#1B4332',
         borderRadius: 4,
     }],
 };
@@ -36,68 +36,58 @@ const pieData = {
     labels: props.doadoresMaisAtivos.map(d => d.doador),
     datasets: [{
         data: props.doadoresMaisAtivos.map(d => d.total),
-        backgroundColor: ['#6366f1', '#8b5cf6', '#a78bfa', '#c4b5fd', '#ddd6fe'],
+        backgroundColor: ['#1B4332', '#2D6A4F', '#52B788', '#95D5B2', '#D8F3DC'],
     }],
 };
 
 const barOptions = {
     responsive: true,
     plugins: { legend: { display: false } },
+    scales: {
+        x: { ticks: { color: '#6B7280' } },
+        y: { ticks: { color: '#6B7280' } },
+    },
 };
 
 const pieOptions = {
     responsive: true,
-    plugins: { legend: { position: 'bottom' as const } },
+    plugins: { legend: { position: 'bottom' as const, labels: { color: '#111827' } } },
 };
 
 function gerarPDF() {
     const doc = new jsPDF();
     const dataAtual = new Date().toLocaleDateString('pt-BR');
 
-    // Título
     doc.setFontSize(18);
-    doc.setTextColor(99, 102, 241);
+    doc.setTextColor(27, 67, 50);
     doc.text('SolidariSys — Relatório de Doações', 14, 20);
 
-    // Data
     doc.setFontSize(10);
-    doc.setTextColor(100);
+    doc.setTextColor(107, 114, 128);
     doc.text(`Gerado em: ${dataAtual}`, 14, 28);
 
-    // Linha separadora
-    doc.setDrawColor(200);
+    doc.setDrawColor(243, 244, 246);
     doc.line(14, 32, 196, 32);
 
-    // Cards resumo
     doc.setFontSize(11);
-    doc.setTextColor(50);
+    doc.setTextColor(17, 24, 39);
     doc.text(`Total de Doações: ${props.totalDoacoes}`, 14, 42);
     doc.text(`Total de Itens Doados: ${props.totalItens}`, 80, 42);
     doc.text(`Total de Doadores: ${props.totalDoadores}`, 150, 42);
 
-    // Tabela de doações
     doc.setFontSize(13);
-    doc.setTextColor(50);
+    doc.setTextColor(17, 24, 39);
     doc.text('Listagem de Doações', 14, 55);
 
     autoTable(doc, {
         startY: 60,
         head: [['Doador', 'Item', 'Quantidade', 'Data']],
         body: props.doacoes.map(d => [d.doador, d.item, d.quantidade, d.data]),
-        headStyles: {
-            fillColor: [99, 102, 241],
-            textColor: 255,
-            fontStyle: 'bold',
-        },
-        alternateRowStyles: {
-            fillColor: [245, 245, 255],
-        },
-        styles: {
-            fontSize: 10,
-        },
+        headStyles: { fillColor: [27, 67, 50], textColor: 255, fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [243, 244, 246] },
+        styles: { fontSize: 10, textColor: [17, 24, 39] },
     });
 
-    // Itens mais doados
     const finalY = (doc as any).lastAutoTable.finalY + 10;
     doc.setFontSize(13);
     doc.text('Itens mais doados', 14, finalY);
@@ -106,15 +96,11 @@ function gerarPDF() {
         startY: finalY + 5,
         head: [['Item', 'Total']],
         body: props.itensMaisDoados.map(i => [i.item, i.total]),
-        headStyles: {
-            fillColor: [99, 102, 241],
-            textColor: 255,
-            fontStyle: 'bold',
-        },
-        styles: { fontSize: 10 },
+        headStyles: { fillColor: [27, 67, 50], textColor: 255, fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [243, 244, 246] },
+        styles: { fontSize: 10, textColor: [17, 24, 39] },
     });
 
-    // Doadores mais ativos
     const finalY2 = (doc as any).lastAutoTable.finalY + 10;
     doc.setFontSize(13);
     doc.text('Doadores mais ativos', 14, finalY2);
@@ -123,12 +109,9 @@ function gerarPDF() {
         startY: finalY2 + 5,
         head: [['Doador', 'Total de Doações']],
         body: props.doadoresMaisAtivos.map(d => [d.doador, d.total]),
-        headStyles: {
-            fillColor: [99, 102, 241],
-            textColor: 255,
-            fontStyle: 'bold',
-        },
-        styles: { fontSize: 10 },
+        headStyles: { fillColor: [27, 67, 50], textColor: 255, fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [243, 244, 246] },
+        styles: { fontSize: 10, textColor: [17, 24, 39] },
     });
 
     doc.save(`relatorio-doacoes-${dataAtual.replace(/\//g, '-')}.pdf`);
@@ -141,64 +124,76 @@ function gerarPDF() {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">Dashboard</h2>
+                <h2 class="text-xl font-semibold leading-tight" style="color: #111827;">
+                    Dashboard
+                </h2>
                 <button
                     @click="gerarPDF"
-                    class="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none"
+                    class="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium text-white transition-colors"
+                    style="background-color: #1B4332;"
+                    onmouseover="this.style.backgroundColor='#2D6A4F'"
+                    onmouseout="this.style.backgroundColor='#1B4332'"
                 >
                     Gerar Relatório PDF
                 </button>
             </div>
         </template>
 
-        <div class="py-12">
+        <div class="py-12" style="background-color: #F3F4F6;">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
 
-                <!-- Cards resumo -->
+             
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <div class="bg-white rounded-lg shadow-sm p-6 border">
-                        <p class="text-sm text-gray-500">Total de Doações</p>
-                        <p class="text-3xl font-bold text-indigo-600 mt-1">{{ totalDoacoes }}</p>
+                    <div class="rounded-lg border p-6" style="background-color: #FFFFFF;">
+                        <p class="text-sm" style="color: #6B7280;">Total de Doações</p>
+                        <p class="text-3xl font-bold mt-1" style="color: #1B4332;">{{ totalDoacoes }}</p>
                     </div>
-                    <div class="bg-white rounded-lg shadow-sm p-6 border">
-                        <p class="text-sm text-gray-500">Total de Itens Doados</p>
-                        <p class="text-3xl font-bold text-indigo-600 mt-1">{{ totalItens }}</p>
+                    <div class="rounded-lg border p-6" style="background-color: #FFFFFF;">
+                        <p class="text-sm" style="color: #6B7280;">Total de Itens Doados</p>
+                        <p class="text-3xl font-bold mt-1" style="color: #1B4332;">{{ totalItens }}</p>
                     </div>
-                    <div class="bg-white rounded-lg shadow-sm p-6 border">
-                        <p class="text-sm text-gray-500">Total de Doadores</p>
-                        <p class="text-3xl font-bold text-indigo-600 mt-1">{{ totalDoadores }}</p>
+                    <div class="rounded-lg border p-6" style="background-color: #FFFFFF;">
+                        <p class="text-sm" style="color: #6B7280;">Total de Doadores</p>
+                        <p class="text-3xl font-bold mt-1" style="color: #1B4332;">{{ totalDoadores }}</p>
                     </div>
                 </div>
 
-                <!-- Gráficos -->
+       
                 <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                    <div class="bg-white rounded-lg shadow-sm p-6 border">
-                        <h3 class="text-base font-semibold text-gray-700 mb-4">Itens mais doados</h3>
+                    <div class="rounded-lg border p-6" style="background-color: #FFFFFF;">
+                        <h3 class="text-base font-semibold mb-4" style="color: #111827;">Itens mais doados</h3>
                         <Bar :data="barData" :options="barOptions" />
                     </div>
-                    <div class="bg-white rounded-lg shadow-sm p-6 border">
-                        <h3 class="text-base font-semibold text-gray-700 mb-4">Doadores mais ativos</h3>
+                    <div class="rounded-lg border p-6" style="background-color: #FFFFFF;">
+                        <h3 class="text-base font-semibold mb-4" style="color: #111827;">Doadores mais ativos</h3>
                         <Pie :data="pieData" :options="pieOptions" />
                     </div>
                 </div>
 
-                <!-- Tabela últimas doações -->
-                <div class="bg-white rounded-lg shadow-sm border">
+
+                <div class="rounded-lg border" style="background-color: #FFFFFF;">
                     <div class="p-6 border-b">
-                        <h3 class="text-base font-semibold text-gray-700">Últimas doações</h3>
+                        <h3 class="text-base font-semibold" style="color: #111827;">Últimas doações</h3>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm">
-                            <thead class="bg-gray-50 text-gray-600">
+                            <thead style="background-color: #F3F4F6;">
                                 <tr>
-                                    <th class="px-6 py-3 text-left">Doador</th>
-                                    <th class="px-6 py-3 text-left">Item</th>
-                                    <th class="px-6 py-3 text-left">Quantidade</th>
-                                    <th class="px-6 py-3 text-left">Data</th>
+                                    <th class="px-6 py-3 text-left font-medium" style="color: #6B7280;">Doador</th>
+                                    <th class="px-6 py-3 text-left font-medium" style="color: #6B7280;">Item</th>
+                                    <th class="px-6 py-3 text-left font-medium" style="color: #6B7280;">Quantidade</th>
+                                    <th class="px-6 py-3 text-left font-medium" style="color: #6B7280;">Data</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                <tr v-for="(d, i) in doacoes.slice(0, 10)" :key="i" class="hover:bg-gray-50">
+                            <tbody class="divide-y" style="border-color: #F3F4F6;">
+                                <tr
+                                    v-for="(d, i) in doacoes.slice(0, 10)"
+                                    :key="i"
+                                    class="transition-colors"
+                                    style="color: #111827;"
+                                    onmouseover="this.style.backgroundColor='#F3F4F6'"
+                                    onmouseout="this.style.backgroundColor=''"
+                                >
                                     <td class="px-6 py-3">{{ d.doador }}</td>
                                     <td class="px-6 py-3">{{ d.item }}</td>
                                     <td class="px-6 py-3">{{ d.quantidade }}</td>
