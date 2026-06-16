@@ -71,8 +71,6 @@ const selectedRows = ref<Set<number>>(new Set());
 const sortColumn = ref<string | null>(null);
 const sortDirection = ref<'asc' | 'desc'>('asc');
 const currentPage = ref(1);
-const editingCell = ref<{ rowIndex: number; columnKey: string } | null>(null);
-const editValue = ref('');
 const visibleColumns = ref<Set<string>>(
     new Set(props.columns.map((c) => c.key)),
 );

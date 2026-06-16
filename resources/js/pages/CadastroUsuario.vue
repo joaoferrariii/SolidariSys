@@ -5,7 +5,7 @@ import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
 import { Head, router, usePage } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 
-const props = defineProps<{ usuarios: any[] }>();
+defineProps<{ usuarios: any[] }>();
 const page = usePage();
 
 const columns = [

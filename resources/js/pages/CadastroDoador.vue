@@ -5,7 +5,7 @@ import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
-const props = defineProps<{ doadores: any[] }>();
+defineProps<{ doadores: any[] }>();
 
 const columns = [
     { key: 'id',       label: 'ID',       sortable: true  },
